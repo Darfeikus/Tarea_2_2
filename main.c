@@ -10,20 +10,18 @@ void simplify(struct Frac *indFrac){
 		indFrac->den*=-1;
 		indFrac->num*=-1;
 	}
-	for (int i = indFrac->den; i > 1; --i){
+	for (int i = indFrac->den; i > 1; --i)
 		if(indFrac->num%i==0 && indFrac->den%i==0){
 			indFrac->num/=i;
 			indFrac->den/=i;
 			i=1;
 		}
-	}
-	for (int i = indFrac->num; i > 1; --i){
+	for (int i = indFrac->num; i > 1; --i)
 		if(indFrac->num%i==0 && indFrac->den%i==0){
 			indFrac->num/=i;
 			indFrac->den/=i;
 			i=1;
 		}
-	}
 }
 
 void simplifyF(struct Frac f1){
@@ -31,20 +29,18 @@ void simplifyF(struct Frac f1){
 		f1.den*=-1;
 		f1.num*=-1;
 	}
-	for (int i = f1.den; i > 1; --i){
+	for (int i = f1.den; i > 1; --i)
 		if(f1.num%i==0 && f1.den%i==0){
 			f1.num/=i;
 			f1.den/=i;
 			i=1;
 		}
-	}
-	for (int i = f1.num; i > 1; --i){
+	for (int i = f1.num; i > 1; --i)
 		if(f1.num%i==0 && f1.den%i==0){
 			f1.num/=i;
 			f1.den/=i;
 			i=1;
 		}
-	}
 }
 
 void printFrac(struct Frac *indFrac){
@@ -81,6 +77,7 @@ struct Frac sum(struct Frac f1,struct Frac f2){
 	simplifyF(res);
 	return res;
 }
+
 int main(){
 	int fr,fc,sr,sc;
 	printf("Write number of rows of the first matrix\n");
@@ -148,7 +145,6 @@ int main(){
 			r++;
 			c=0;
 		}
-		simplify(indRes);
 		indRes++;
 	}
 
