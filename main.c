@@ -6,7 +6,13 @@ struct Frac{
 };
 
 void simplify(struct Frac *indFrac){
-	if (indFrac->den<0){
+	int x = indFrac -> num > indFrac -> den ? indFrac->num : indFrac->den;
+	for (int i = 0; i < x; ++i)
+		if(indFrac->num % x == 0 && indFrac->den % x == 0 ){
+			indFrac->num /= x;
+			indFrac->den /= x;
+		}
+	/*if (indFrac->den<0){
 		indFrac->den*=-1;
 		indFrac->num*=-1;
 	}
@@ -21,30 +27,11 @@ void simplify(struct Frac *indFrac){
 			indFrac->num/=i;
 			indFrac->den/=i;
 			i=1;
-		}
-}
-
-void simplifyF(struct Frac f1){
-	if (f1.den<0){
-		f1.den*=-1;
-		f1.num*=-1;
-	}
-	for (int i = f1.den; i > 1; --i)
-		if(f1.num%i==0 && f1.den%i==0){
-			f1.num/=i;
-			f1.den/=i;
-			i=1;
-		}
-	for (int i = f1.num; i > 1; --i)
-		if(f1.num%i==0 && f1.den%i==0){
-			f1.num/=i;
-			f1.den/=i;
-			i=1;
-		}
+		}*/
 }
 
 void printFrac(struct Frac *indFrac){
-	printf("| %d / %d | ",indFrac->num,indFrac->den);
+	printf("| %8d / %8d | ",indFrac->num,indFrac->den);
 }
 
 void printMatrix(struct Frac *indFrac, int r,int c){
@@ -66,7 +53,9 @@ struct Frac mult(struct Frac f1,struct Frac f2){
 	struct Frac res;
 	res.num=f1.num * f2.num;
 	res.den= f1.den * f2.den;
-	simplifyF(res);
+	struct Frac *p1;
+	p1 = &res;
+	simplify(p1);
 	return res;
 }
 
@@ -74,7 +63,9 @@ struct Frac sum(struct Frac f1,struct Frac f2){
 	struct Frac res;
 	res.num=(f2.den*f1.num)+(f1.den*f2.num);
 	res.den=f1.den * f2.den;
-	simplifyF(res);
+	struct Frac *p1;
+	p1 = &res;
+	simplify(p1);
 	return res;
 }
 
@@ -98,13 +89,9 @@ int main(){
 	struct Frac firstFrac[fr][fc];
 	struct Frac secondFrac[sr][sc];
 
-	struct Frac *indRes;
-	struct Frac *indFrac;
-	struct Frac *indFrac2;
-
-	indRes = &res[0][0];
-	indFrac = &firstFrac[0][0];
-	indFrac2 = &secondFrac[0][0];
+	struct Frac *indRes = (struct Frac*)malloc(sizeof(struct Frac) * (fr*sc));
+	struct Frac *indFrac = (struct Frac*)malloc(sizeof(struct Frac) * (fr*fc));
+	struct Frac *indFrac2 = (struct Frac*)malloc(sizeof(struct Frac) * (sr*sc));
 
 	for (int i = 0; i < fr*fc; ++i){
 		printf("Input fraction %d of the first matrix\n", i+1);
@@ -133,7 +120,7 @@ int main(){
 		indRes->den=1;
 		indFrac = &firstFrac[r][0];
 		indFrac2 = &secondFrac[0][c];
-		for (int i = 0; i < fr; ++i){
+		for (int i = 0; i < fc; ++i){
 			*indRes=sum(mult(*indFrac,*indFrac2),*indRes);
 			simplify(indRes);
 			indFrac++;
@@ -156,5 +143,4 @@ int main(){
 	printMatrix(indFrac2,sr,sc);
 	printf(" = \n\n");
 	printMatrix(indRes,sr,sc);
-
 }
